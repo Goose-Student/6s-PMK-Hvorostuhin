@@ -2,67 +2,67 @@
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
 
-uint32_t polinom = 0x12345678;
-uint32_t selfbit;
+uint32_t Seed = 0xABCDEF; // Переменная для анализатора
+uint32_t GBit; // Переменная для анализатора
 
-uint32_t func()
-{
-uint32_t t;
-t = 0;
-if (polinom & 0x00020000)
-{
-	t = t ^ 0x00000001;
-}
-if (polinom & 0x00000008)
-{
-	t = t ^ 0x00000001;
-}
-if (polinom & 0x00000001)
-{
-	t = t ^ 0x00000001;
-}
-return t;
+typedef struct {
+    uint32_t *polynomial;  // Указатель на переменную seed
+    int id1;
+    int id2;
+    int length;
+} Generator;
+
+void initializeGenerator(Generator *gen, uint32_t *seed, int id1, int id2, int length) {
+    gen->polynomial = seed;
+    gen->id1 = id1;
+    gen->id2 = id2;
+    gen->length = length;
 }
 
-void Tact(){
-RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+uint32_t nextBit(Generator *gen) {
+    uint32_t firstBit = ((*gen->polynomial) >> (gen->id1 - 1)) & 0x1;
+    uint32_t secondBit = ((*gen->polynomial) >> (gen->id2 - 1)) & 0x1;
+    uint32_t sum = firstBit ^ secondBit;
 
-GPIO_InitTypeDef my_initB;
+    *gen->polynomial = ((*gen->polynomial) << 1) | sum;
+    *gen->polynomial &= ((1ULL << gen->length) - 1);
 
-my_initB.GPIO_Pin = GPIO_Pin_7;
-my_initB.GPIO_Mode = GPIO_Mode_IPD;
-GPIO_Init(GPIOB, &my_initB);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-
-GPIO_InitTypeDef my_initA;
-
-my_initA.GPIO_Pin = GPIO_Pin_5;
-my_initA.GPIO_Mode = GPIO_Mode_Out_PP;
-my_initA.GPIO_Speed = GPIO_Speed_50MHz;
-GPIO_Init(GPIOA, &my_initA);
+    return sum;
 }
 
-int main()
-{
-Tact();
-while (1)
-{
-	if(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_7))
-	{
-		selfbit = func();
-		polinom = (polinom << 1) | selfbit;
-		if (selfbit)
-		{
-			GPIO_SetBits(GPIOA, GPIO_Pin_5);
-		}
-		else{
-			GPIO_ResetBits(GPIOA, GPIO_Pin_5);
-		}
-	}
-	else
-	{
-		GPIO_ResetBits(GPIOA, GPIO_Pin_5);
-	}
+void initializeGPIO() {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOA, ENABLE);
+
+    GPIO_InitTypeDef initInput;
+    initInput.GPIO_Pin = GPIO_Pin_7;
+    initInput.GPIO_Mode = GPIO_Mode_IPD;
+    GPIO_Init(GPIOB, &initInput);
+
+    GPIO_InitTypeDef initOutput;
+    initOutput.GPIO_Pin = GPIO_Pin_5;
+    initOutput.GPIO_Mode = GPIO_Mode_Out_PP;
+    initOutput.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &initOutput);
 }
 
+int main() {
+    Generator gen;
+    initializeGenerator(&gen, &Seed, 14, 17, 17); // Инициализация параметров генератора
+
+    initializeGPIO(); // Инициализация портов ввода/вывода
+
+    while (1) {
+        if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_7)) {
+            GBit = nextBit(&gen); // Генерация следующего бита
+            if (GBit) {
+                GPIO_SetBits(GPIOA, GPIO_Pin_5); // Установка бита на выходе
+            } else {
+                GPIO_ResetBits(GPIOA, GPIO_Pin_5); // Сброс бита на выходе
+            }
+        } else {
+            GPIO_ResetBits(GPIOA, GPIO_Pin_5); // Сброс бита на выходе
+        }
+    }
+
+    return 0;
 }

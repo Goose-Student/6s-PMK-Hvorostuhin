@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: �Vision V5.37.0.0
 Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: oleg frolov, gsdg, LIC=----
+License Information: Arseni Popov, VGU, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.37.0.0
@@ -22,55 +22,70 @@ Dialog DLL:      TCM.DLL V1.56.1.0
  
 <h2>Project:</h2>
 D:\Projects\PGU\6s-PMK-Hvorostuhin\LBs\LB1\project\LB1.uvprojx
-Project File Date:  04/30/2024
+Project File Date:  05/01/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-main.c(5): warning: no previous extern declaration for non-static variable 'polinom' [-Wmissing-variable-declarations]
-uint32_t polinom = 0x12345678;
-         ^
-main.c(5): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint32_t polinom = 0x12345678;
-^
-main.c(8): warning: no previous prototype for function 'func' [-Wmissing-prototypes]
-uint32_t func()
-         ^
-main.c(8): note: declare 'static' if the function is not intended to be used outside of this translation unit
-uint32_t func()
-^
-static 
-main.c(8): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-uint32_t func()
-             ^
-main.c(30): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-GPIO_InitTypeDef my_initB;
-                 ^
-main.c(27): warning: no previous prototype for function 'Tact' [-Wmissing-prototypes]
-void Tact(){
-     ^
-main.c(27): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void Tact(){
-^
-static 
-main.c(27): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void Tact(){
-         ^
-main.c(6): warning: no previous extern declaration for non-static variable 'selfbit' [-Wmissing-variable-declarations]
-uint32_t selfbit;
-         ^
-main.c(6): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint32_t selfbit;
-^
-7 warnings generated.
-compiling main.c...
+assembling startup_stm32f10x_md.s...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
     NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
                                                ~ ^~~~~~~~~~~
 1 warning generated.
 compiling misc.c...
-compiling stm32f10x_gpio.c...
-assembling startup_stm32f10x_md.s...
+main.c(5): warning: no previous extern declaration for non-static variable 'Seed' [-Wmissing-variable-declarations]
+uint32_t Seed = 0xABCDEF; // Переменная для анализатора
+         ^
+main.c(5): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint32_t Seed = 0xABCDEF; // Переменная для анализатора
+^
+main.c(5): warning: // comments are not allowed in this language [-Wcomment]
+uint32_t Seed = 0xABCDEF; // Переменная для анализатора
+                          ^
+main.c(15): warning: no previous prototype for function 'initializeGenerator' [-Wmissing-prototypes]
+void initializeGenerator(Generator *gen, uint32_t *seed, int id1, int id2, int length) {
+     ^
+main.c(15): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void initializeGenerator(Generator *gen, uint32_t *seed, int id1, int id2, int length) {
+^
+static 
+main.c(28): warning: 'long long' is an extension when C99 mode is not enabled [-Wlong-long]
+    *gen->polynomial &= ((1ULL << gen->length) - 1);
+                          ^
+main.c(22): warning: no previous prototype for function 'nextBit' [-Wmissing-prototypes]
+uint32_t nextBit(Generator *gen) {
+         ^
+main.c(22): note: declare 'static' if the function is not intended to be used outside of this translation unit
+uint32_t nextBit(Generator *gen) {
+^
+static 
+main.c(36): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+    GPIO_InitTypeDef initInput;
+                     ^
+main.c(33): warning: no previous prototype for function 'initializeGPIO' [-Wmissing-prototypes]
+void initializeGPIO() {
+     ^
+main.c(33): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void initializeGPIO() {
+^
+static 
+main.c(33): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
+void initializeGPIO() {
+                   ^
+main.c(68): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+main.c(67): warning: 'return' will never be executed [-Wunreachable-code-return]
+    return 0;
+           ^
+main.c(6): warning: no previous extern declaration for non-static variable 'GBit' [-Wmissing-variable-declarations]
+uint32_t GBit; // Переменная для анализатора
+         ^
+main.c(6): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint32_t GBit; // Переменная для анализатора
+^
+11 warnings generated.
+compiling main.c...
 RTE/Device/STM32F103RB/system_stm32f10x.c(166): warning: no previous extern declaration for non-static variable 'AHBPrescTable' [-Wmissing-variable-declarations]
 __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
             ^
@@ -79,10 +94,11 @@ __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9}
     ^
 1 warning generated.
 compiling system_stm32f10x.c...
+compiling stm32f10x_gpio.c...
 compiling stm32f10x_rcc.c...
 linking...
-Program Size: Code=1592 RO-data=268 RW-data=4 ZI-data=1640  
-".\Objects\LB1.axf" - 0 Error(s), 9 Warning(s).
+Program Size: Code=1636 RO-data=268 RW-data=4 ZI-data=1640  
+".\Objects\LB1.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -113,16 +129,16 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:1.0.0
-      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
-      Include file:  RTE_Driver/Config/RTE_Device.h
       Source file:   Device/Source/system_stm32f10x.c
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
+      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
+      Include file:  RTE_Driver/Config/RTE_Device.h
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/misc.h
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
       Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Source file:   Device/StdPeriph_Driver/src/misc.c
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
@@ -130,9 +146,9 @@ Package Vendor: Keil
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
-Build Time Elapsed:  00:00:02
+      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

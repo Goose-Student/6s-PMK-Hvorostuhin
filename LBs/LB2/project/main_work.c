@@ -5,14 +5,17 @@
 
 //
 // Константы для настройки таймеров
-#define TIMER_PRESCALER 539
-#define PWM_TIMER_PRESCALER 10799
-#define PWM_TIMER_PERIOD 32000;
+#define TIMER_PRESCALER 540 - 1
+#define TIMER_PERIOD 0xFF4F
+#define PWM_TIMER_PRESCALER 21600 - 1
+#define PWM_TIMER_PERIOD 200
 
-uint16_t TIM_VALUE = 0;
+uint16_t capture1 = 0, capture2 = 0;
+uint16_t first_capture = 1, ready_capture = 0;
+uint16_t period_capture = 0;
 
 // Инициализация порта
-void initPorts() {
+void initPort() {
     GPIO_InitTypeDef port;
     GPIO_StructInit(&port);
 
@@ -38,7 +41,7 @@ void initCaptureTimer() {
     TIM_TimeBaseInitTypeDef timer;
     TIM_TimeBaseStructInit(&timer);
     timer.TIM_Prescaler = TIMER_PRESCALER;
-    // timer.TIM_Period = TIMER_PERIOD;
+    timer.TIM_Period = TIMER_PERIOD;
     TIM_TimeBaseInit(TIM4, &timer);
 
     TIM_ICInitTypeDef ic;
@@ -58,7 +61,11 @@ void initCaptureTimer() {
 void TIM4_IRQHandler() {
     if(TIM_GetITStatus(TIM4, TIM_IT_CC3) != RESET) {
         TIM_ClearITPendingBit(TIM4, TIM_IT_CC3);
-        TIM_VALUE = TIM_GetCapture3(TIM4);
+        capture1 = capture2;
+        capture2 = TIM_GetCapture3(TIM4);
+        if(!first_capture)
+            ready_capture = 1;
+        first_capture = 0;
     }
 }
 
@@ -67,10 +74,48 @@ uint16_t diffTime(uint16_t a, uint16_t b) {
     return ( a >> b ) ? ( a - b ) : (UINT16_MAX - b + a);
 }
 
+// Инициализация таймера ШИМ
+void initPWMTimer() {
+    // TIM3, CHANNEL 1 - PA6, TIM2 CH4 - PA3
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+    TIM_TimeBaseInitTypeDef PWM_timer;
+    TIM_TimeBaseStructInit(&PWM_timer);
+    // 21600 = 108000000 * 0.00020
+    PWM_timer.TIM_Prescaler = PWM_TIMER_PRESCALER;
+    PWM_timer.TIM_Period = PWM_TIMER_PERIOD;
+    TIM_TimeBaseInit(TIM3, &PWM_timer);
+
+    TIM_OCInitTypeDef oc;
+    TIM_OCStructInit(&oc);
+    oc.TIM_OCMode = TIM_OCMode_PWM1;
+    oc.TIM_OutputState= TIM_OutputState_Enable;
+    oc.TIM_Pulse = 0xFF;
+    TIM_OC1Init(TIM3, &oc);
+
+    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+    TIM_Cmd(TIM3, ENABLE);
+    NVIC_EnableIRQ(TIM3_IRQn);
+}
+
+// Обработчик прерывания таймера 3
+void TIM3_IRQHandler() {
+    if(TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) {
+        TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+        TIM_SetCompare1(TIM3, period_capture);
+    }
+}
+
 int main() {
-    initPorts();
+    initPort();
     initCaptureTimer();
+    initPWMTimer();
     while(1) {
+        if(ready_capture) {
+            NVIC_DisableIRQ(TIM4_IRQn);
+            ready_capture = 0;
+            period_capture = diffTime(capture2, capture1);
+            NVIC_EnableIRQ(TIM4_IRQn);
+        }
     }
     return 0;
 }

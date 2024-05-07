@@ -12,48 +12,47 @@ static uint16_t PWM_PERIOD = 32000;
 /* Хранение значения таймера */
 static uint32_t TIM3_VALUE = 0;
 
-
 /* Функция инициализации портов */
 static void initGPIO(void)
 {
-	/* Объявление структуры для инициализации порта */
-  GPIO_InitTypeDef GPIO_InitStructure;
+  /* Объявление структуры для инициализации порта */
+  GPIO_InitTypeDef PORT;
   /* Включение тактирования порта A */
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-  
+
   /* Настройка порта PA6 */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;             /* Настройка пина 6 */
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING; /* Режим входа, подтяжка отключена */
-  GPIO_Init(GPIOA, &GPIO_InitStructure);                /* Применение настроек к порту A */
+  PORT.GPIO_Pin = GPIO_Pin_6;             /* Настройка пина 6 */
+  PORT.GPIO_Mode = GPIO_Mode_IN_FLOATING; /* Режим входа, подтяжка отключена */
+  GPIO_Init(GPIOA, &PORT);                /* Применение настроек к порту A */
 }
 
 static void initTIM3(void)
 {
-	/* Объявление структуры для инициализации канала таймера */
-  TIM_ICInitTypeDef TIM_ICInitStructure;
-	/* Объявление структуры для инициализации таймера */
-  TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
-	
+  /* Объявление структуры для инициализации канала таймера */
+  TIM_ICInitTypeDef CHANEL;
+  /* Объявление структуры для инициализации таймера */
+  TIM_TimeBaseInitTypeDef TIMER;
+
   /* Включение тактирования таймера TIM3 */
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-  
+
   /* Настройка периода и прескеллера TIM3 */
-  TIM_TimeBaseStructure.TIM_Period = СAPTURE_PERIOD;
-  TIM_TimeBaseStructure.TIM_Prescaler = CAPTURE_PRESCALER;
+  TIMER.TIM_Period = СAPTURE_PERIOD;
+  TIMER.TIM_Prescaler = CAPTURE_PRESCALER;
 
   /* Настройка делителя частоты, режим счета таймера TIM3 */
-  TIM_TimeBaseStructure.TIM_ClockDivision = 0;                /* Делитель частоты таймера */
-  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up; /* Режим счета вверх */
-  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);             /* Применение настроек */
+  TIMER.TIM_ClockDivision = 0;                /* Делитель частоты таймера */
+  TIMER.TIM_CounterMode = TIM_CounterMode_Up; /* Режим счета вверх */
+  TIM_TimeBaseInit(TIM3, &TIMER);             /* Применение настроек */
 
   /* Настройка первого канала */
-	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
-  TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;     /* Передний фронт */
-  TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI; /* Выбор входа - прямой вход */
-  TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;           /* Предделитель входного сигнала */
-  TIM_ICInitStructure.TIM_ICFilter = 0x0;                         /* Фильтр входного сигнала */
-  TIM_ICInit(TIM3, &TIM_ICInitStructure);                         /* Применение настроек к каналу 1 таймера TIM3 */
-  TIM_ITConfig(TIM3, TIM_IT_CC1, ENABLE);                         /* Включение прерывания по событию захвата на канале 1 */
+  CHANEL.TIM_Channel = TIM_Channel_1;
+  CHANEL.TIM_ICPolarity = TIM_ICPolarity_Rising;     /* Передний фронт */
+  CHANEL.TIM_ICSelection = TIM_ICSelection_DirectTI; /* Выбор входа - прямой вход */
+  CHANEL.TIM_ICPrescaler = TIM_ICPSC_DIV1;           /* Предделитель входного сигнала */
+  CHANEL.TIM_ICFilter = 0x0;                         /* Фильтр входного сигнала */
+  TIM_ICInit(TIM3, &CHANEL);                         /* Применение настроек к каналу 1 таймера TIM3 */
+  TIM_ITConfig(TIM3, TIM_IT_CC1, ENABLE);            /* Включение прерывания по событию захвата на канале 1 */
 
   TIM_Cmd(TIM3, ENABLE);     /* Включение таймера TIM3 */
   NVIC_EnableIRQ(TIM3_IRQn); /* Разрешить прерывания от таймера 3 */
@@ -76,6 +75,6 @@ int main(void)
   initGPIO();     /* Вызов функции инициализации порта */
   initTIM3();     /* Вызов функции инициализации таймера */
   while (1)
-  { 
+  {
   }
 }

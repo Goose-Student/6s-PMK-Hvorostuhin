@@ -3,74 +3,59 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_tim.h"
 
-//
 // Константы для настройки таймеров
-#define TIMER_PRESCALER 539
-#define PWM_TIMER_PRESCALER 10799
-#define PWM_TIMER_PERIOD 32000;
+uint16_t CAPTURE_PRESCALER = 539;
+uint16_t СAPTURE_PERIOD = 32000;
 
-uint16_t TIM_VALUE = 0;
+uint16_t PWM_TIMER_PRESCALER = 10799;
+uint16_t PWM_TIMER_PERIOD = 32000;
 
-// Инициализация порта
-void initPorts() {
-    GPIO_InitTypeDef port;
-    GPIO_StructInit(&port);
+uint32_t TimerValue = 0;  // Объявление глобальной переменной для хранения значения таймера
 
-    // Включение тактирования порта B
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-    port.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-    port.GPIO_Pin = GPIO_Pin_8;
-    port.GPIO_Speed = GPIO_Speed_2MHz;
-    GPIO_Init(GPIOB, &port);
-
-    // Включение тактирования порта A
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-    port.GPIO_Mode = GPIO_Mode_AF_PP;
-    port.GPIO_Pin = GPIO_Pin_6;
-    port.GPIO_Speed = GPIO_Speed_2MHz;
-    GPIO_Init(GPIOA, &port);
+void Port_Init(void) {  // Функция инициализации порта
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);  // Включение тактирования порта A
+  GPIO_InitTypeDef GPIO_InitStructure;  // Объявление структуры для инициализации порта
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;  // Настройка пина 6
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  // Режим входа, подтяжка отключена
+  GPIO_Init(GPIOA, &GPIO_InitStructure);  // Применение настроек к порту A
 }
 
-// Инициализация таймера захвата
-void initCaptureTimer() {
-    // TIM4, CHANNEL 3 - PB8, TIM3 CH1 - PA6
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
-    TIM_TimeBaseInitTypeDef timer;
-    TIM_TimeBaseStructInit(&timer);
-    timer.TIM_Prescaler = TIMER_PRESCALER;
-    // timer.TIM_Period = TIMER_PERIOD;
-    TIM_TimeBaseInit(TIM4, &timer);
+void TIM3_CH1_Capture_Init(void) {  // Функция инициализации таймера TIM3 CH1 в режиме захвата
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);  // Включение тактирования таймера TIM3
+  TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;  // Объявление структуры для инициализации таймера
+  TIM_TimeBaseStructure.TIM_Period = СAPTURE_PERIOD;    // Период счета таймера
+  TIM_TimeBaseStructure.TIM_Prescaler = CAPTURE_PRESCALER;     // Предделитель таймера
+  TIM_TimeBaseStructure.TIM_ClockDivision = 0;  // Делитель частоты таймера
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  // Режим счета вверх
+  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);  // Применение настроек к таймеру TIM3
 
-    TIM_ICInitTypeDef ic;
-    ic.TIM_Channel = TIM_Channel_3;
-    ic.TIM_ICPolarity = TIM_ICPolarity_Rising;
-    ic.TIM_ICSelection = TIM_ICSelection_DirectTI;
-    ic.TIM_ICPrescaler = TIM_ICPSC_DIV1;
-    ic.TIM_ICFilter = 0;
-    TIM_ICInit(TIM4, &ic);
+  TIM_ICInitTypeDef TIM_ICInitStructure;  // Объявление структуры для инициализации канала таймера
+  TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;  // Настройка канала 1
+  TIM_ICInitStructure.TIM_ICPolarity =
+      TIM_ICPolarity_Rising;  // Полярность сигнала - передний фронт
+  TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;  // Выбор входа - прямой вход
+  TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;  // Предделитель входного сигнала
+  TIM_ICInitStructure.TIM_ICFilter = 0x0;  // Фильтр входного сигнала
+  TIM_ICInit(TIM3, &TIM_ICInitStructure);  // Применение настроек к каналу 1 таймера TIM3
 
-    TIM_ITConfig(TIM4, TIM_IT_CC3, ENABLE);
-    TIM_Cmd(TIM4, ENABLE);
-    NVIC_EnableIRQ(TIM4_IRQn);
+  TIM_ITConfig(TIM3, TIM_IT_CC1, ENABLE);  // Включение прерывания по событию захвата на канале 1
+  TIM_Cmd(TIM3, ENABLE);  // Включение таймера TIM3
 }
 
-// Обработчик прерывания таймера 4
-void TIM4_IRQHandler() {
-    if(TIM_GetITStatus(TIM4, TIM_IT_CC3) != RESET) {
-        TIM_ClearITPendingBit(TIM4, TIM_IT_CC3);
-        TIM_VALUE = TIM_GetCapture3(TIM4);
-    }
+void TIM3_IRQHandler(void) {  // Обработчик прерывания таймера TIM3
+  if (TIM_GetITStatus(TIM3, TIM_IT_CC1) != RESET) {  // Если произошло прерывание по событию захвата на канале 1
+    TIM_ClearITPendingBit(TIM3, TIM_IT_CC1);  // Сброс флага прерывания
+    TimerValue = TIM_GetCapture1(TIM3);  // Запись значения таймера в переменную
+ 
+  }
 }
 
-// Расчет разницы времени
-uint16_t diffTime(uint16_t a, uint16_t b) {
-    return ( a >> b ) ? ( a - b ) : (UINT16_MAX - b + a);
-}
-
-int main() {
-    initPorts();
-    initCaptureTimer();
-    while(1) {
-    }
-    return 0;
+int main(void) {  // Главная функция
+  __enable_irq();
+	NVIC_EnableIRQ(TIM3_IRQn);
+  Port_Init();              // Вызов функции инициализации порта
+  TIM3_CH1_Capture_Init();  // Вызов функции инициализации таймера
+  while (1) {               // Бесконечный цикл
+  
+	}
 }

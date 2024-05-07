@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: �Vision V5.37.0.0
 Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Arseni Popov, VGU, LIC=----
+License Information: oleg frolov, gsdg, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.37.0.0
@@ -22,86 +22,86 @@ Dialog DLL:      TCM.DLL V1.56.1.0
  
 <h2>Project:</h2>
 D:\Projects\PGU\6s-PMK-Hvorostuhin\LBs\LB2\project\lb2.uvprojx
-Project File Date:  05/06/2024
+Project File Date:  05/02/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-    NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
-                                               ~ ^~~~~~~~~~~
-1 warning generated.
-compiling misc.c...
-assembling startup_stm32f10x_md.s...
-compiling stm32f10x_gpio.c...
 main.c(6): warning: // comments are not allowed in this language [-Wcomment]
-//
+// Константы для настройки таймеров
 ^
-main.c(12): warning: no previous extern declaration for non-static variable 'TIM_VALUE' [-Wmissing-variable-declarations]
-uint16_t TIM_VALUE = 0;
+main.c(7): warning: no previous extern declaration for non-static variable 'CAPTURE_PRESCALER' [-Wmissing-variable-declarations]
+uint16_t CAPTURE_PRESCALER = 539;
          ^
-main.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint16_t TIM_VALUE = 0;
+main.c(7): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t CAPTURE_PRESCALER = 539;
 ^
-main.c(15): warning: no previous prototype for function 'initPorts' [-Wmissing-prototypes]
-void initPorts() {
+main.c(8): warning: no previous extern declaration for non-static variable 'СAPTURE_PERIOD' [-Wmissing-variable-declarations]
+uint16_t СAPTURE_PERIOD = 32000;
+         ^
+main.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t СAPTURE_PERIOD = 32000;
+^
+main.c(10): warning: no previous extern declaration for non-static variable 'PWM_TIMER_PRESCALER' [-Wmissing-variable-declarations]
+uint16_t PWM_TIMER_PRESCALER = 10799;
+         ^
+main.c(10): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t PWM_TIMER_PRESCALER = 10799;
+^
+main.c(11): warning: no previous extern declaration for non-static variable 'PWM_TIMER_PERIOD' [-Wmissing-variable-declarations]
+uint16_t PWM_TIMER_PERIOD = 32000;
+         ^
+main.c(11): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t PWM_TIMER_PERIOD = 32000;
+^
+main.c(13): warning: no previous extern declaration for non-static variable 'TimerValue' [-Wmissing-variable-declarations]
+uint32_t TimerValue = 0;  // Объявление глобальной переменной для хранения значения таймера
+         ^
+main.c(13): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint32_t TimerValue = 0;  // Объявление глобальной переменной для хранения значения таймера
+^
+main.c(17): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+  GPIO_InitTypeDef GPIO_InitStructure;  // Объявление структуры для инициализации порта
+                   ^
+main.c(15): warning: no previous prototype for function 'Port_Init' [-Wmissing-prototypes]
+void Port_Init(void) {  // Функция инициализации порта
      ^
 main.c(15): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void initPorts() {
+void Port_Init(void) {  // Функция инициализации порта
 ^
 static 
-main.c(15): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void initPorts() {
-              ^
 main.c(1): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
 ./RTE/Device/STM32F103RB\stm32f10x_conf.h(87): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
 typedef struct
         ^
-main.c(38): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-    TIM_TimeBaseInitTypeDef timer;
-                            ^
-main.c(35): warning: no previous prototype for function 'initCaptureTimer' [-Wmissing-prototypes]
-void initCaptureTimer() {
+main.c(25): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+  TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;  // Объявление структуры для инициализации таймера
+                          ^
+main.c(23): warning: no previous prototype for function 'TIM3_CH1_Capture_Init' [-Wmissing-prototypes]
+void TIM3_CH1_Capture_Init(void) {  // Функция инициализации таймера TIM3 CH1 в режиме захвата
      ^
-main.c(35): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void initCaptureTimer() {
+main.c(23): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void TIM3_CH1_Capture_Init(void) {  // Функция инициализации таймера TIM3 CH1 в режиме захвата
 ^
 static 
-main.c(35): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void initCaptureTimer() {
-                     ^
-main.c(58): warning: no previous prototype for function 'TIM4_IRQHandler' [-Wmissing-prototypes]
-void TIM4_IRQHandler() {
+main.c(46): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
+void TIM3_IRQHandler(void) {  // Обработчик прерывания таймера TIM3
      ^
-main.c(58): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void TIM4_IRQHandler() {
+main.c(46): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void TIM3_IRQHandler(void) {  // Обработчик прерывания таймера TIM3
 ^
 static 
-main.c(58): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void TIM4_IRQHandler() {
-                    ^
-main.c(66): warning: no previous prototype for function 'diffTime' [-Wmissing-prototypes]
-uint16_t diffTime(uint16_t a, uint16_t b) {
-         ^
-main.c(66): note: declare 'static' if the function is not intended to be used outside of this translation unit
-uint16_t diffTime(uint16_t a, uint16_t b) {
-^
-static 
-main.c(75): warning: 'return' will never be executed [-Wunreachable-code-return]
-    return 0;
-           ^
 12 warnings generated.
 compiling main.c...
-RTE/Device/STM32F103RB/system_stm32f10x.c(166): warning: no previous extern declaration for non-static variable 'AHBPrescTable' [-Wmissing-variable-declarations]
-__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
-            ^
-RTE/Device/STM32F103RB/system_stm32f10x.c(166): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
-    ^
+compiling stm32f10x_gpio.c...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+    NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
+                                               ~ ^~~~~~~~~~~
 1 warning generated.
-compiling system_stm32f10x.c...
+compiling misc.c...
+assembling startup_stm32f10x_md.s...
 compiling stm32f10x_rcc.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
@@ -121,8 +121,16 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
        ~ ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
 5 warnings generated.
 compiling stm32f10x_tim.c...
+RTE/Device/STM32F103RB/system_stm32f10x.c(166): warning: no previous extern declaration for non-static variable 'AHBPrescTable' [-Wmissing-variable-declarations]
+__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+            ^
+RTE/Device/STM32F103RB/system_stm32f10x.c(166): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+    ^
+1 warning generated.
+compiling system_stm32f10x.c...
 linking...
-Program Size: Code=3680 RO-data=252 RW-data=0 ZI-data=1640  
+Program Size: Code=3608 RO-data=268 RW-data=4 ZI-data=1640  
 ".\Objects\lb2.axf" - 0 Error(s), 19 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -155,30 +163,30 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:1.0.0
-      Include file:  RTE_Driver/Config/RTE_Device.h
       Source file:   Device/Source/ARM/startup_stm32f10x_md.s
+      Include file:  RTE_Driver/Config/RTE_Device.h
       Source file:   Device/Source/system_stm32f10x.c
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
-      Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
-      Source file:   Device/StdPeriph_Driver/src/misc.c
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
+      Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Include file:  Device/StdPeriph_Driver/inc/misc.h
+      Source file:   Device/StdPeriph_Driver/src/misc.c
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
+      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
-      Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
+      Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

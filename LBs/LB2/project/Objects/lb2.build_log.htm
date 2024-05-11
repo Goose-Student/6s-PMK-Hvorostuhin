@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: �Vision V5.37.0.0
 Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: oleg frolov, gsdg, LIC=----
+License Information: Arseni Popov, VGU, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.37.0.0
@@ -22,12 +22,63 @@ Dialog DLL:      TCM.DLL V1.56.1.0
  
 <h2>Project:</h2>
 D:\Projects\PGU\6s-PMK-Hvorostuhin\LBs\LB2\project\lb2.uvprojx
-Project File Date:  05/02/2024
+Project File Date:  05/06/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-".\Objects\lb2.axf" - 0 Error(s), 0 Warning(s).
+main.c(13): warning: no previous extern declaration for non-static variable 'tim3_value' [-Wmissing-variable-declarations]
+uint16_t tim3_value = 0;
+         ^
+main.c(13): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t tim3_value = 0;
+^
+main.c(14): warning: no previous extern declaration for non-static variable 'current_value' [-Wmissing-variable-declarations]
+uint16_t current_value = 0;
+         ^
+main.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t current_value = 0;
+^
+main.c(15): warning: no previous extern declaration for non-static variable 'tim2_value' [-Wmissing-variable-declarations]
+uint16_t tim2_value = 0;
+         ^
+main.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t tim2_value = 0;
+^
+main.c(16): warning: no previous extern declaration for non-static variable 'pwm_width' [-Wmissing-variable-declarations]
+uint16_t pwm_width = 0;
+         ^
+main.c(16): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t pwm_width = 0;
+^
+main.c(1): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
+./RTE/Device/STM32F103RB\stm32f10x_conf.h(87): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
+typedef struct
+        ^
+main.c(74): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
+void TIM3_IRQHandler(void)
+     ^
+main.c(74): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void TIM3_IRQHandler(void)
+^
+static 
+main.c(115): warning: // comments are not allowed in this language [-Wcomment]
+  // OUTPUT_CHANNEL.TIM_Pulse = PWM_PERIOD / 2;         /* Установка коэффициента заполнения в 50% */
+  ^
+main.c(127): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
+void TIM2_IRQHandler(void)
+     ^
+main.c(127): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void TIM2_IRQHandler(void)
+^
+static 
+8 warnings generated.
+compiling main.c...
+linking...
+Program Size: Code=4256 RO-data=268 RW-data=8 ZI-data=1640  
+".\Objects\lb2.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -60,24 +111,24 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device/Source/ARM/startup_stm32f10x_md.s
-      Include file:  RTE_Driver/Config/RTE_Device.h
-      Source file:   Device/Source/system_stm32f10x.c
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
+      Source file:   Device/Source/system_stm32f10x.c
+      Include file:  RTE_Driver/Config/RTE_Device.h
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
-      Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Include file:  Device/StdPeriph_Driver/inc/misc.h
       Source file:   Device/StdPeriph_Driver/src/misc.c
+      Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
+      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h

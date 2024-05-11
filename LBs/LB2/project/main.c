@@ -7,13 +7,12 @@
 static uint16_t CAPTURE_PRESCALER = 539;
 static uint16_t СAPTURE_PERIOD = 32000;
 static uint16_t PWM_PRESCALER = 10799;
-static uint16_t PWM_PERIOD = 200; /* 200 (max input period) * 2  */
+static uint16_t PWM_PERIOD = 400; /* 200 (max input period) * 2  */
 
 /* Хранение значения таймера */
 uint16_t tim3_value = 0;
-uint16_t current_value = 0;
 uint16_t tim2_value = 0;
-uint16_t pwm_width = 0;
+uint16_t pwm_width = 20; /* 2ms default */
 
 
 /* Функция инициализации портов */
@@ -77,15 +76,12 @@ void TIM3_IRQHandler(void)
   if (TIM_GetITStatus(TIM3, TIM_IT_CC1) != RESET)
   {
     TIM_ClearITPendingBit(TIM3, TIM_IT_CC1); /* Сброс флага прерывания */
-		current_value = TIM_GetCapture1(TIM3);
-		tim3_value = current_value; /* Запись значения таймера в переменную */
 		
 		/* определение переода */
-		if (pwm_width == current_value - tim3_value)
-			return;
-		pwm_width = 0;
-		if (current_value >= tim3_value)
-			pwm_width = (current_value - tim3_value);
+		pwm_width = 20;
+		if (TIM_GetCapture1(TIM3) >= tim3_value)
+			pwm_width = (TIM_GetCapture1(TIM3) - tim3_value) / 20;
+		tim3_value = TIM_GetCapture1(TIM3); /* Запись значения таймера в переменную */
   }
 }
 
@@ -116,7 +112,7 @@ static void initTIM2(void)
   OUTPUT_CHANNEL.TIM_OCPolarity = TIM_OCPolarity_High; /* Полярность выходного сигнала - прямая */
   TIM_OC4Init(TIM2, &OUTPUT_CHANNEL);                 /* Применение настроек к каналу 4 таймера TIM2 */
 	TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);            /* Включение прерывания на канале 4 */
-	TIM_SetCompare4(TIM2, 0); /* установки нового значения сравнения */
+	TIM_SetCompare4(TIM2, 20); /* установки нового значения сравнения */
 	
   TIM_Cmd(TIM2, ENABLE);     /* Включение таймера TIM2 */
 	NVIC_EnableIRQ(TIM2_IRQn); /* Разрешить прерывания от таймера 2 */
@@ -130,9 +126,8 @@ void TIM2_IRQHandler(void)
   if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
   {
     TIM_ClearITPendingBit(TIM2, TIM_IT_Update); /* Сброс флага прерывания */
-		TIM_SetCompare4(TIM2, pwm_width / 10); /* установки нового значения сравнения */
+		TIM_SetCompare4(TIM2, pwm_width); /* установки нового значения сравнения */
 		tim2_value = TIM_GetCapture4(TIM2);  /* Запись значения таймера в переменную */		
-		
   }
 }
 

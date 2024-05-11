@@ -26,30 +26,40 @@ Project File Date:  05/06/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
-Build target 'Target 1'
+Rebuild target 'Target 1'
+assembling startup_stm32f10x_md.s...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+    NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
+                                               ~ ^~~~~~~~~~~
+1 warning generated.
+compiling misc.c...
+compiling stm32f10x_gpio.c...
+RTE/Device/STM32F103RB/system_stm32f10x.c(166): warning: no previous extern declaration for non-static variable 'AHBPrescTable' [-Wmissing-variable-declarations]
+__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+            ^
+RTE/Device/STM32F103RB/system_stm32f10x.c(166): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+    ^
+1 warning generated.
+compiling system_stm32f10x.c...
+compiling stm32f10x_rcc.c...
 main.c(13): warning: no previous extern declaration for non-static variable 'tim3_value' [-Wmissing-variable-declarations]
 uint16_t tim3_value = 0;
          ^
 main.c(13): note: declare 'static' if the variable is not intended to be used outside of this translation unit
 uint16_t tim3_value = 0;
 ^
-main.c(14): warning: no previous extern declaration for non-static variable 'current_value' [-Wmissing-variable-declarations]
-uint16_t current_value = 0;
+main.c(14): warning: no previous extern declaration for non-static variable 'tim2_value' [-Wmissing-variable-declarations]
+uint16_t tim2_value = 0;
          ^
 main.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint16_t current_value = 0;
-^
-main.c(15): warning: no previous extern declaration for non-static variable 'tim2_value' [-Wmissing-variable-declarations]
 uint16_t tim2_value = 0;
+^
+main.c(15): warning: no previous extern declaration for non-static variable 'pwm_width' [-Wmissing-variable-declarations]
+uint16_t pwm_width = 20; /* 2ms default */
          ^
 main.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint16_t tim2_value = 0;
-^
-main.c(16): warning: no previous extern declaration for non-static variable 'pwm_width' [-Wmissing-variable-declarations]
-uint16_t pwm_width = 0;
-         ^
-main.c(16): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint16_t pwm_width = 0;
+uint16_t pwm_width = 20; /* 2ms default */
 ^
 main.c(1): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
@@ -57,28 +67,46 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\s
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
 typedef struct
         ^
-main.c(74): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
+main.c(73): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
 void TIM3_IRQHandler(void)
      ^
-main.c(74): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(73): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void TIM3_IRQHandler(void)
 ^
 static 
-main.c(115): warning: // comments are not allowed in this language [-Wcomment]
+main.c(111): warning: // comments are not allowed in this language [-Wcomment]
   // OUTPUT_CHANNEL.TIM_Pulse = PWM_PERIOD / 2;         /* Установка коэффициента заполнения в 50% */
   ^
-main.c(127): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
+main.c(123): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
 void TIM2_IRQHandler(void)
      ^
-main.c(127): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(123): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void TIM2_IRQHandler(void)
 ^
 static 
-8 warnings generated.
+7 warnings generated.
 compiling main.c...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(22): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
+typedef struct
+        ^
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(725): warning: implicit conversion loses integer precision: 'unsigned int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+             TIM_BDTRInitStruct->TIM_Break | TIM_BDTRInitStruct->TIM_BreakPolarity |
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(1982): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+  tmp = CCER_CCE_Set << TIM_Channel;
+      ~ ~~~~~~~~~~~~~^~~~~~~~~~~~~~
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(2012): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+  tmp = CCER_CCNE_Set << TIM_Channel;
+      ~ ~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(2057): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+  tmp1 = CCER_CCE_Set << (uint16_t)TIM_Channel;
+       ~ ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+5 warnings generated.
+compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=4256 RO-data=268 RW-data=8 ZI-data=1640  
-".\Objects\lb2.axf" - 0 Error(s), 8 Warning(s).
+Program Size: Code=4224 RO-data=268 RW-data=12 ZI-data=1640  
+".\Objects\lb2.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -116,15 +144,15 @@ Package Vendor: Keil
       Include file:  RTE_Driver/Config/RTE_Device.h
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/misc.h
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
       Source file:   Device/StdPeriph_Driver/src/misc.c
       Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
+      Include file:  Device/StdPeriph_Driver/inc/misc.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
-      Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
+      Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
@@ -133,7 +161,7 @@ Package Vendor: Keil
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

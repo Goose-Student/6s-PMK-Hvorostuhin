@@ -12,7 +12,6 @@ static TIM_TimeBaseInitTypeDef TimObj;
 static char buffer;      // Буфер для хранения принятых данных
 static char xbuffer[64]; // Буфер для хранения массива данных
 static uint8_t xlen = 0; // Длина буфера
-uint16_t argument = 0;
 
 // Функция вывода массива байтов
 static void sendArr(char *data)

@@ -42,7 +42,6 @@ __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9}
     ^
 1 warning generated.
 compiling system_stm32f10x.c...
-compiling stm32f10x_rcc.c...
 main.c(13): warning: no previous extern declaration for non-static variable 'tim3_value' [-Wmissing-variable-declarations]
 uint16_t tim3_value = 0;
          ^
@@ -67,25 +66,26 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\s
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
 typedef struct
         ^
-main.c(73): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
+main.c(71): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
 void TIM3_IRQHandler(void)
      ^
-main.c(73): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(71): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void TIM3_IRQHandler(void)
 ^
 static 
-main.c(111): warning: // comments are not allowed in this language [-Wcomment]
+main.c(109): warning: // comments are not allowed in this language [-Wcomment]
   // OUTPUT_CHANNEL.TIM_Pulse = PWM_PERIOD / 2;         /* Установка коэффициента заполнения в 50% */
   ^
-main.c(123): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
+main.c(120): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
 void TIM2_IRQHandler(void)
      ^
-main.c(123): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(120): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void TIM2_IRQHandler(void)
 ^
 static 
 7 warnings generated.
 compiling main.c...
+compiling stm32f10x_rcc.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
 typedef struct
@@ -139,29 +139,29 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device/Source/ARM/startup_stm32f10x_md.s
-      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
-      Source file:   Device/Source/system_stm32f10x.c
       Include file:  RTE_Driver/Config/RTE_Device.h
+      Source file:   Device/Source/system_stm32f10x.c
+      Source file:   Device/Source/ARM/STM32F1xx_OPT.s
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
+      Include file:  Device/StdPeriph_Driver/inc/misc.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
       Source file:   Device/StdPeriph_Driver/src/misc.c
       Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
-      Include file:  Device/StdPeriph_Driver/inc/misc.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
-      Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
+      Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

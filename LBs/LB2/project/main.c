@@ -87,7 +87,7 @@ void TIM3_IRQHandler(void)
 static void initTIM2(void)
 {
   /* Объявление структуры для инициализации канала таймера */
-  TIM_OCInitTypeDef OUTPUT_CHANNEL;
+  TIM_OCInitTypeDef CHANNEL;
   /* Объявление структуры для инициализации таймера */
   TIM_TimeBaseInitTypeDef TIMER;
 
@@ -104,11 +104,10 @@ static void initTIM2(void)
   TIM_TimeBaseInit(TIM2, &TIMER);             /* Применение настроек */
 
   /* Настройка канала 4 в режиме PWM */
-  OUTPUT_CHANNEL.TIM_OCMode = TIM_OCMode_PWM1;             /* Режим работы канала - PWM1 */
-  OUTPUT_CHANNEL.TIM_OutputState = TIM_OutputState_Enable; /* Включение выхода канала */
-  // OUTPUT_CHANNEL.TIM_Pulse = PWM_PERIOD / 2;         /* Установка коэффициента заполнения в 50% */
-  OUTPUT_CHANNEL.TIM_OCPolarity = TIM_OCPolarity_High; /* Полярность выходного сигнала - прямая */
-  TIM_OC4Init(TIM2, &OUTPUT_CHANNEL);                  /* Применение настроек к каналу 4 таймера TIM2 */
+  CHANNEL.TIM_OCMode = TIM_OCMode_PWM1;             /* Режим работы канала - PWM1 */
+  CHANNEL.TIM_OutputState = TIM_OutputState_Enable; /* Включение выхода канала */
+  CHANNEL.TIM_OCPolarity = TIM_OCPolarity_High; /* Полярность выходного сигнала - прямая */
+  TIM_OC4Init(TIM2, &CHANNEL);                  /* Применение настроек к каналу 4 таймера TIM2 */
   TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);           /* Включение прерывания на канале 4 */
   TIM_SetCompare4(TIM2, 20);                           /* установки нового значения сравнения */
 

@@ -41,35 +41,6 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
                                                ~ ^~~~~~~~~~~
 1 warning generated.
 compiling misc.c...
-main.c(1): warning: // comments are not allowed in this language [-Wcomment]
-#include "stm32f10x.h"       // Подключение библиотеки общих определений для STM32F10x
-                             ^
-main.c(1): warning: In file included from...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
-./RTE/Device/STM32F103RB\stm32f10x_conf.h(90): warning: In file included from...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
-typedef struct
-        ^
-main.c(97): warning: implicit conversion loses integer precision: 'uint16_t' (aka 'unsigned short') to 'char' [-Wimplicit-int-conversion]
-        buffer = USART_ReceiveData(USART1);               // Чтение данных из регистра приема USART1
-               ~ ^~~~~~~~~~~~~~~~~~~~~~~~~
-main.c(92): warning: no previous prototype for function 'USART1_IRQHandler' [-Wmissing-prototypes]
-void USART1_IRQHandler() // Обработчик прерывания USART1
-     ^
-main.c(92): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void USART1_IRQHandler() // Обработчик прерывания USART1
-^
-static 
-main.c(92): warning: this old-style function definition is not preceded by a prototype [-Wstrict-prototypes]
-void USART1_IRQHandler() // Обработчик прерывания USART1
-                      ^
-main.c(158): warning: 'return' will never be executed [-Wunreachable-code-return]
-    return 0;
-           ^
-6 warnings generated.
-compiling main.c...
-compiling stm32f10x_gpio.c...
-compiling stm32f10x_rcc.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_usart.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
 typedef struct
@@ -79,6 +50,45 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
          ~  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
 2 warnings generated.
 compiling stm32f10x_usart.c...
+compiling stm32f10x_rcc.c...
+main.c(1): warning: // comments are not allowed in this language [-Wcomment]
+#include "stm32f10x.h"       // Подключение библиотеки общих определений для STM32F10x
+                             ^
+main.c(15): warning: no previous extern declaration for non-static variable 'argument' [-Wmissing-variable-declarations]
+uint16_t argument = 0;
+         ^
+main.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t argument = 0;
+^
+main.c(1): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
+./RTE/Device/STM32F103RB\stm32f10x_conf.h(90): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
+typedef struct
+        ^
+main.c(1): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
+./RTE/Device/STM32F103RB\stm32f10x_conf.h(87): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
+typedef struct
+        ^
+main.c(162): warning: implicit conversion loses integer precision: 'uint16_t' (aka 'unsigned short') to 'char' [-Wimplicit-int-conversion]
+        buffer = USART_ReceiveData(USART1);               // Чтение данных из регистра приема USART1
+               ~ ^~~~~~~~~~~~~~~~~~~~~~~~~
+main.c(182): warning: implicitly declaring library function 'sprintf' with type 'int (char *, const char *, ...)' [-Wimplicit-function-declaration]
+            sprintf(xbuffer, "%d", TimObj.TIM_Period);
+            ^
+main.c(182): note: include the header <stdio.h> or explicitly provide a declaration for 'sprintf'
+main.c(157): warning: no previous prototype for function 'USART1_IRQHandler' [-Wmissing-prototypes]
+void USART1_IRQHandler(void) // Обработчик прерывания USART1
+     ^
+main.c(157): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void USART1_IRQHandler(void) // Обработчик прерывания USART1
+^
+static 
+7 warnings generated.
+compiling main.c...
+compiling stm32f10x_gpio.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
 typedef struct
@@ -98,8 +108,8 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
 5 warnings generated.
 compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=3310 RO-data=366 RW-data=0 ZI-data=1704  
-".\Objects\lb3.axf" - 0 Error(s), 15 Warning(s).
+Program Size: Code=11256 RO-data=912 RW-data=0 ZI-data=1728  
+".\Objects\lb3.axf" - 0 Error(s), 16 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -134,23 +144,23 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device/Source/ARM/startup_stm32f10x_md.s
       Include file:  RTE_Driver/Config/RTE_Device.h
-      Source file:   Device/Source/system_stm32f10x.c
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
+      Source file:   Device/Source/system_stm32f10x.c
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
-      Source file:   Device/StdPeriph_Driver/src/misc.c
+      Include file:  Device/StdPeriph_Driver/inc/misc.h
       Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
-      Include file:  Device/StdPeriph_Driver/inc/misc.h
+      Source file:   Device/StdPeriph_Driver/src/misc.c
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
+      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
+      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
@@ -159,7 +169,7 @@ Package Vendor: Keil
    * Component: Keil::Device:StdPeriph Drivers:USART:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_usart.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_usart.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

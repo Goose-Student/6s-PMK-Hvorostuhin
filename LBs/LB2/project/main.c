@@ -8,7 +8,7 @@ static uint16_t CAPTURE_PRESCALER = 540;
 static uint16_t СAPTURE_PERIOD = 32000;
 static uint16_t PWM_PRESCALER = 10800;
 static uint16_t PWM_PERIOD = 400; /* 200 (max input period) * 2  */
-static uint16_t SYNC = PWM_PRESCALER / CAPTURE_PRESCALER
+static uint16_t SYNC = 20;        /* PWM_PRESCALER / CAPTURE_PRESCALER */
 
 /* Хранение значения таймера */
 uint16_t tim3_value = 0;
@@ -107,10 +107,10 @@ static void initTIM2(void)
   /* Настройка канала 4 в режиме PWM */
   CHANNEL.TIM_OCMode = TIM_OCMode_PWM1;             /* Режим работы канала - PWM1 */
   CHANNEL.TIM_OutputState = TIM_OutputState_Enable; /* Включение выхода канала */
-  CHANNEL.TIM_OCPolarity = TIM_OCPolarity_High; /* Полярность выходного сигнала - прямая */
-  TIM_OC4Init(TIM2, &CHANNEL);                  /* Применение настроек к каналу 4 таймера TIM2 */
-  TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);           /* Включение прерывания на канале 4 */
-  TIM_SetCompare4(TIM2, 20);                           /* установки нового значения сравнения */
+  CHANNEL.TIM_OCPolarity = TIM_OCPolarity_High;     /* Полярность выходного сигнала - прямая */
+  TIM_OC4Init(TIM2, &CHANNEL);                      /* Применение настроек к каналу 4 таймера TIM2 */
+  TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);        /* Включение прерывания на канале 4 */
+  TIM_SetCompare4(TIM2, pwm_pulse / SYNC);          /* установки нового значения сравнения */
 
   TIM_Cmd(TIM2, ENABLE);     /* Включение таймера TIM2 */
   NVIC_EnableIRQ(TIM2_IRQn); /* Разрешить прерывания от таймера 2 */
@@ -123,7 +123,7 @@ void TIM2_IRQHandler(void)
   if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
   {
     TIM_ClearITPendingBit(TIM2, TIM_IT_Update); /* Сброс флага прерывания */
-    TIM_SetCompare4(TIM2, pwm_pulse / SYNC);           /* установки нового значения сравнения */
+    TIM_SetCompare4(TIM2, pwm_pulse / SYNC);    /* установки нового значения сравнения */
     tim2_value = TIM_GetCapture4(TIM2);         /* Запись значения таймера в переменную */
   }
 }

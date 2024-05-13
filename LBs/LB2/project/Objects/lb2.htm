@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\lb2.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\lb2.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Sun May 12 19:33:38 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Mon May 13 17:52:46 2024
 <BR><P>
 <H3>Maximum Stack Usage =         96 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -495,7 +495,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(.text)
 </UL>
-<P><STRONG><a name="[26]"></a>TIM2_IRQHandler</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, main.o(.text.TIM2_IRQHandler))
+<P><STRONG><a name="[26]"></a>TIM2_IRQHandler</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, main.o(.text.TIM2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = TIM2_IRQHandler &rArr; TIM_GetITStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetCapture4
@@ -505,7 +505,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(RESET)
 </UL>
-<P><STRONG><a name="[27]"></a>TIM3_IRQHandler</STRONG> (Thumb, 156 bytes, Stack size 16 bytes, main.o(.text.TIM3_IRQHandler))
+<P><STRONG><a name="[27]"></a>TIM3_IRQHandler</STRONG> (Thumb, 136 bytes, Stack size 16 bytes, main.o(.text.TIM3_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = TIM3_IRQHandler &rArr; TIM_GetITStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetCapture1
@@ -635,7 +635,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[63]"></a>initTIM3</STRONG> (Thumb, 132 bytes, Stack size 48 bytes, main.o(.text.initTIM3))
+<P><STRONG><a name="[63]"></a>initTIM3</STRONG> (Thumb, 134 bytes, Stack size 48 bytes, main.o(.text.initTIM3))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = initTIM3 &rArr; TIM_ICInit &rArr; TI4_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
@@ -648,7 +648,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5c]"></a>initTIM2</STRONG> (Thumb, 128 bytes, Stack size 48 bytes, main.o(.text.initTIM2))
+<P><STRONG><a name="[5c]"></a>initTIM2</STRONG> (Thumb, 152 bytes, Stack size 48 bytes, main.o(.text.initTIM2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = initTIM2 &rArr; TIM_OC4Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC4Init

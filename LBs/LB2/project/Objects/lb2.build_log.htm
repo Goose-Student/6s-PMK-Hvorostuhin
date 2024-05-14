@@ -22,25 +22,12 @@ Dialog DLL:      TCM.DLL V1.56.1.0
  
 <h2>Project:</h2>
 D:\Projects\PGU\6s-PMK-Hvorostuhin\LBs\LB2\project\lb2.uvprojx
-Project File Date:  05/06/2024
+Project File Date:  05/14/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
-RTE/Device/STM32F103RB/system_stm32f10x.c(166): warning: no previous extern declaration for non-static variable 'AHBPrescTable' [-Wmissing-variable-declarations]
-__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
-            ^
-RTE/Device/STM32F103RB/system_stm32f10x.c(166): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
-    ^
-1 warning generated.
-compiling system_stm32f10x.c...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-    NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
-                                               ~ ^~~~~~~~~~~
-1 warning generated.
-compiling misc.c...
 main.c(14): warning: no previous extern declaration for non-static variable 'tim3_value' [-Wmissing-variable-declarations]
 uint16_t tim3_value = 0;
          ^
@@ -54,10 +41,10 @@ main.c(15): note: declare 'static' if the variable is not intended to be used ou
 uint16_t tim2_value = 0;
 ^
 main.c(16): warning: no previous extern declaration for non-static variable 'pwm_pulse' [-Wmissing-variable-declarations]
-uint16_t pwm_pulse = 200; /* 2ms default */
+uint16_t pwm_pulse = 0; /* 2ms default */
          ^
 main.c(16): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-uint16_t pwm_pulse = 200; /* 2ms default */
+uint16_t pwm_pulse = 0; /* 2ms default */
 ^
 main.c(1): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
@@ -72,16 +59,29 @@ main.c(72): note: declare 'static' if the function is not intended to be used ou
 void TIM3_IRQHandler(void)
 ^
 static 
-main.c(120): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
+main.c(140): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
 void TIM2_IRQHandler(void)
      ^
-main.c(120): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(140): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void TIM2_IRQHandler(void)
 ^
 static 
 6 warnings generated.
 compiling main.c...
+RTE/Device/STM32F103RB/system_stm32f10x.c(166): warning: no previous extern declaration for non-static variable 'AHBPrescTable' [-Wmissing-variable-declarations]
+__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+            ^
+RTE/Device/STM32F103RB/system_stm32f10x.c(166): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+__I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+    ^
+1 warning generated.
+compiling system_stm32f10x.c...
 compiling stm32f10x_gpio.c...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+    NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
+                                               ~ ^~~~~~~~~~~
+1 warning generated.
+compiling misc.c...
 compiling stm32f10x_rcc.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
@@ -102,7 +102,7 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
 5 warnings generated.
 compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=4248 RO-data=268 RW-data=12 ZI-data=1640  
+Program Size: Code=4268 RO-data=268 RW-data=12 ZI-data=1640  
 ".\Objects\lb2.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -135,17 +135,17 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:1.0.0
-      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
       Source file:   Device/Source/system_stm32f10x.c
+      Source file:   Device/Source/ARM/startup_stm32f10x_md.s
       Include file:  RTE_Driver/Config/RTE_Device.h
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
+      Include file:  Device/StdPeriph_Driver/inc/misc.h
       Source file:   Device/StdPeriph_Driver/src/misc.c
+      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
       Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
-      Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
-      Include file:  Device/StdPeriph_Driver/inc/misc.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
@@ -156,8 +156,8 @@ Package Vendor: Keil
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
+      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

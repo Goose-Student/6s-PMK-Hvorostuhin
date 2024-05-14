@@ -13,7 +13,7 @@ static uint16_t SYNC = 20;        /* PWM_PRESCALER / CAPTURE_PRESCALER */
 /* Хранение значения таймера */
 uint16_t tim3_value = 0;
 uint16_t tim2_value = 0;
-uint16_t pwm_pulse = 200; /* 2ms default */
+uint16_t pwm_pulse = 0; /* 2ms default */
 
 /* Функция инициализации портов */
 static void initGPIO(void)
@@ -71,17 +71,37 @@ static void initTIM3(void)
 /* Обработчик прерывания таймера TIM3 */
 void TIM3_IRQHandler(void)
 {
-  /* Если произошло прерывание по событию захвата на канале 1 */
-  if (TIM_GetITStatus(TIM3, TIM_IT_CC1) != RESET)
+  uint16_t current_value;
+  uint16_t current_pulse;
+  /* Проверка наличия прерывания по событию захвата на канале 1 */
+  if (TIM_GetITStatus(TIM3, TIM_IT_CC1) == RESET)
   {
-    TIM_ClearITPendingBit(TIM3, TIM_IT_CC1); /* Сброс флага прерывания */
-
-    /* определение переода */
-    pwm_pulse = 200;
-    if (TIM_GetCapture1(TIM3) >= tim3_value)
-      pwm_pulse = (TIM_GetCapture1(TIM3) - tim3_value);
-    tim3_value = TIM_GetCapture1(TIM3); /* Запись значения таймера в переменную */
+    return; /* Если прерывания нет, выходим из обработчика */
   }
+
+  /* Сброс флага прерывания */
+  TIM_ClearITPendingBit(TIM3, TIM_IT_CC1);
+
+  current_value = TIM_GetCapture1(TIM3);
+
+  /* Если текущее значение захвата меньше сохраненного, обновляем сохраненное значение и выходим */
+  if (current_value < tim3_value)
+  {
+    tim3_value = current_value;
+    return;
+  }
+
+  /* Определение периода */
+  current_pulse = current_value - tim3_value;
+  if (current_pulse != pwm_pulse)
+  {
+    pwm_pulse = current_pulse;
+    /* Установка нового значения сравнения */
+    TIM_SetCompare4(TIM2, pwm_pulse / SYNC);
+  }
+
+  /* Обновление сохраненного значения захвата */
+  tim3_value = current_value;
 }
 
 /* Функция инициализации таймера TIM2 в режиме PWM */
@@ -123,7 +143,6 @@ void TIM2_IRQHandler(void)
   if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
   {
     TIM_ClearITPendingBit(TIM2, TIM_IT_Update); /* Сброс флага прерывания */
-    TIM_SetCompare4(TIM2, pwm_pulse / SYNC);    /* установки нового значения сравнения */
     tim2_value = TIM_GetCapture4(TIM2);         /* Запись значения таймера в переменную */
   }
 }

@@ -4,34 +4,28 @@
 #include "stm32f10x_tim.h"
 #include "stm32f10x_usart.h"
 
-static float S, V, T;
-static float temperature_delta = 0.0;
-static char buffer;      // Буфер для хранения принятых данных
-static char xbuffer[64]; // Буфер для хранения массива данных
-static uint8_t xlen = 0; // Длина буфера
-
-static uint32_t readADC()
-{
-    ADC1->SQR3 = 8; // Номер канала АЦП
-    ADC1->CR2 |= ADC_CR2_SWSTART;
-    while (!(ADC1->SR & ADC_SR_EOC))
-    {
-    }
-    return ADC1->DR;
-}
+uint16_t timer = 0;
+uint8_t isTime = 1;
 
 static void USART_SendArray(const char *data)
 {
     uint64_t i = 0;
     while (data[i])
     {
+        USART_SendData(USART2, data[i]);
         while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET)
             ; // Ожидание завершения передачи
-        USART_SendData(USART2, data[i]);
         i++;
     }
 }
 
+static uint32_t readADC()
+{
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE); /* Запуск преобразования */
+    while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET)
+        ;                                /* Ожидание завершения преобразования */
+    return ADC_GetConversionValue(ADC1); /* Чтение и возврат результата преобразования */
+}
 static void initGPIO(void) // Функция инициализации GPIO
 {
     GPIO_InitTypeDef PortObj;                             // Объявление структуры для инициализации GPIO
@@ -48,30 +42,36 @@ static void initGPIO(void) // Функция инициализации GPIO
     PortObj.GPIO_Mode = GPIO_Mode_IN_FLOATING; // Установка режима входа с подтяжкой к "плавающему" уровню
     GPIO_Init(GPIOA, &PortObj);                // Инициализация GPIOA с использованием структуры Obj
 }
-
-static void initTIM2(void)
+static void initTIM3(void)
 {
     TIM_TimeBaseInitTypeDef TIMER;
 
-    /* Включение тактирования таймера TIM2 */
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    /* Включение тактирования таймера TIM3 */
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 
-    /* Настройка периода и прескеллера TIM2 */
-    TIMER.TIM_Period = 10000;    // Срабатывание каждую секунду
-    TIMER.TIM_Prescaler = 10799; // Настройка прескелера 10000 int = 1 сек
+    /* Настройка периода и прескеллера TIM3 */
+    TIMER.TIM_Period = 10000;
+    TIMER.TIM_Prescaler = 10799;
 
-    /* Настройка делителя частоты, режим счета таймера TIM2 */
+    /* Настройка делителя частоты, режим счета таймера TIM3 */
     TIMER.TIM_ClockDivision = 0;                /* Делитель частоты таймера */
     TIMER.TIM_CounterMode = TIM_CounterMode_Up; /* Режим счета вверх */
-    TIM_TimeBaseInit(TIM2, &TIMER);             /* Применение настроек */
+    TIM_TimeBaseInit(TIM3, &TIMER);             /* Применение настроек */
+    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);  /* Включение прерывания по событию захвата на канале 1 */
 
-    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE); /* Включение прерывания по событию обновления */
-
-    TIM_Cmd(TIM2, ENABLE);     /* Включение таймера TIM2 */
-    NVIC_EnableIRQ(TIM2_IRQn); /* Разрешить прерывания от таймера 3 */
-    NVIC_SetPriority(TIM2_IRQn, 1);
+    TIM_Cmd(TIM3, ENABLE);     /* Включение таймера TIM3 */
+    NVIC_EnableIRQ(TIM3_IRQn); /* Разрешить прерывания от таймера 3 */
 }
 
+void TIM3_IRQHandler(void)
+{
+    if (!TIM_GetITStatus(TIM3, TIM_IT_Update))
+        return;
+
+    TIM_ClearITPendingBit(TIM3, TIM_IT_Update); /* Сброс флага прерывания */
+    timer += 1;
+    isTime = 1; /* Запись значения готовности времени */
+}
 static void initUSART(void) // Функция инициализации USART
 {
     USART_InitTypeDef UsartObj;                            // Объявление структуры для инициализации USART
@@ -84,72 +84,86 @@ static void initUSART(void) // Функция инициализации USART
     UsartObj.USART_HardwareFlowControl = USART_HardwareFlowControl_None; // Установка аппаратного управления потоком
     UsartObj.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;                 // Установка режима передачи и приема
     USART_Init(USART2, &UsartObj);                                       // Инициализация USART2 с использованием структуры Obj
-		USART_ITConfig(USART1, USART_IT_RXNE, ENABLE); 
-	
-    USART_Cmd(USART2, ENABLE); // Включение USART2
-    NVIC_EnableIRQ(USART2_IRQn);
-    NVIC_SetPriority(USART2_IRQn, 0);
-}
 
-void USART2_IRQHandler(void) // Обработчик прерывания USART2
-{		
-		if (!USART_GetFlagStatus(USART2, USART_FLAG_RXNE))
-			return;
-		
-    S = readADC();
-    char sss[20];
-    sprintf(sss, "%f", S);
-    USART_SendArray("SIGNAL: ");
-    USART_SendArray(sss);
-    USART_SendArray("\n");
-    V = S * 1.2 / 4096;
-    char vvv[20];
-    sprintf(vvv, "%f", V);
-    USART_SendArray("VOLTAGE: ");
-    USART_SendArray(vvv);
-    USART_SendArray("\n");
-    T = (1.43 - V) / 4.3 + 5 + temperature_delta;
-    temperature_delta += 0.3;
-    char ttt[20];
-    sprintf(ttt, "%f", T);
-    USART_SendArray("TEMPERATURE: ");
-    USART_SendArray(ttt);
-    USART_SendArray("\n");
+    USART_Cmd(USART2, ENABLE); // Включение USART2
 }
 
 static void initADC(void)
 {
-    RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
-    GPIOC->CRL &= ~(GPIO_CRL_MODE4 | GPIO_CRL_CNF4);
-    RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
-    ADC1->SMPR1 |= ADC_SMPR1_SMP14;
-    ADC1->CR2 |= ADC_CR2_TSVREFE;
-    ADC1->CR2 |= ADC_CR2_EXTSEL;
-    ADC1->CR2 |= ADC_CR2_EXTTRIG;
-    ADC1->CR2 |= ADC_CR2_ADON;
-    ADC1->CR2 |= ADC_CR2_CAL;
-    while (!(ADC1->CR2 & ADC_CR2_CAL))
-    {
-    }
-}
+    ADC_InitTypeDef ADCObj;
 
-void TIM2_IRQHandler(void)
-{
-    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
-    {
-        TIM_ClearITPendingBit(TIM2, TIM_IT_Update); /* Сброс флага прерывания */
-        // NVIC_SetPendingIRQ(USART2_IRQn);
-    }
+    /* Включение тактирования ADC1 */
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+
+    /* Сброс калибровки ADC1 */
+    ADC_ResetCalibration(ADC1);
+    while (ADC_GetResetCalibrationStatus(ADC1))
+        ;
+
+    /* Запуск калибровки ADC1 */
+    ADC_StartCalibration(ADC1);
+    while (ADC_GetCalibrationStatus(ADC1))
+        ;
+
+    /* Настройка ADC1 */
+    ADCObj.ADC_Mode = ADC_Mode_Independent;
+    ADCObj.ADC_ScanConvMode = DISABLE;
+    ADCObj.ADC_ContinuousConvMode = ENABLE;
+    ADCObj.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADCObj.ADC_DataAlign = ADC_DataAlign_Right;
+    ADCObj.ADC_NbrOfChannel = 1;
+    ADC_Init(ADC1, &ADCObj);
+
+    /* Включение внутреннего источника опорного напряжения */
+    ADC_TempSensorVrefintCmd(ENABLE);
+
+    /* Настройка ADC1 для канала 8 с временем выборки 55.5 циклов */
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_55Cycles5);
+    ADC_Cmd(ADC1, ENABLE);
 }
 
 int main(void)
 {
+    char xbuffer[64];
+    double S, V, T;
     __enable_irq();
     initGPIO();
-    // initTIM2();
+    initTIM3();
     initUSART();
     initADC();
+
     while (1)
     {
+        if (!isTime)
+            continue;
+        isTime = 0;
+
+        S = readADC();
+        sprintf(xbuffer, "%f", S);
+        USART_SendArray("SIGNAL: ");
+        USART_SendArray(xbuffer);
+        USART_SendArray("\n");
+
+        /*
+            2^12 = 4096 из формулы
+						3.29999995 - Опорное напряжение (debug - console DIR VTREG)
+        */	
+
+        V = (S * 3.29999995) / 4096;
+        sprintf(xbuffer, "%f", V);
+        USART_SendArray("VOLTAGE: ");
+        USART_SendArray(xbuffer);
+        USART_SendArray("\n");
+
+        /*
+                4.3 - среднее приращение температуры;
+                1.43 - напряжение, соответствующее температуре +25°С
+        */
+
+        T = (1.43 - V) / 4.3 + 60 - (timer * 0.2); //
+        sprintf(xbuffer, "%f", T);
+        USART_SendArray("TEMPERATURE: ");
+        USART_SendArray(xbuffer);
+        USART_SendArray("\n\n");
     }
 }

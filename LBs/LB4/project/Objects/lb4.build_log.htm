@@ -28,91 +28,6 @@ Project File Date:  05/14/2024
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_md.s...
-main.c(9): warning: // comments are not allowed in this language [-Wcomment]
-static char buffer;      // Буфер для хранения принятых данных
-                         ^
-main.c(1): warning: In file included from...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
-./RTE/Device/STM32F103RB\stm32f10x_conf.h(87): warning: In file included from...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
-typedef struct
-        ^
-main.c(1): warning: In file included from...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
-./RTE/Device/STM32F103RB\stm32f10x_conf.h(90): warning: In file included from...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
-typedef struct
-        ^
-main.c(99): warning: implicit conversion from 'uint32_t' (aka 'unsigned int') to 'float' may lose precision [-Wimplicit-int-float-conversion]
-    S = readADC();
-      ~ ^~~~~~~~~
-main.c(101): warning: implicitly declaring library function 'sprintf' with type 'int (char *, const char *, ...)' [-Wimplicit-function-declaration]
-    sprintf(sss, "%f", S);
-    ^
-main.c(101): note: include the header <stdio.h> or explicitly provide a declaration for 'sprintf'
-main.c(101): warning: implicit conversion increases floating-point precision: 'float' to 'double' [-Wdouble-promotion]
-    sprintf(sss, "%f", S);
-    ~~~~~~~            ^
-main.c(105): warning: implicit conversion loses floating-point precision: 'double' to 'float' [-Wimplicit-float-conversion]
-    V = S * 1.2 / 4096;
-      ~ ~~~~~~~~^~~~~~
-main.c(105): warning: implicit conversion increases floating-point precision: 'float' to 'double' [-Wdouble-promotion]
-    V = S * 1.2 / 4096;
-        ^ ~
-main.c(107): warning: implicit conversion increases floating-point precision: 'float' to 'double' [-Wdouble-promotion]
-    sprintf(vvv, "%f", V);
-    ~~~~~~~            ^
-main.c(111): warning: implicit conversion loses floating-point precision: 'double' to 'float' [-Wimplicit-float-conversion]
-    T = (1.43 - V) / 4.3 + 5 + temperature_delta;
-      ~ ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-main.c(111): warning: implicit conversion increases floating-point precision: 'float' to 'double' [-Wdouble-promotion]
-    T = (1.43 - V) / 4.3 + 5 + temperature_delta;
-                             ~ ^~~~~~~~~~~~~~~~~
-main.c(111): warning: implicit conversion increases floating-point precision: 'float' to 'double' [-Wdouble-promotion]
-    T = (1.43 - V) / 4.3 + 5 + temperature_delta;
-              ~ ^
-main.c(112): warning: implicit conversion when assigning computation result loses floating-point precision: 'double' to 'float' [-Wimplicit-float-conversion]
-    temperature_delta += 0.3;
-                      ~~ ^~~
-main.c(114): warning: implicit conversion increases floating-point precision: 'float' to 'double' [-Wdouble-promotion]
-    sprintf(ttt, "%f", T);
-    ~~~~~~~            ^
-main.c(100): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-    char sss[20];
-         ^
-main.c(94): warning: no previous prototype for function 'USART2_IRQHandler' [-Wmissing-prototypes]
-void USART2_IRQHandler(void) // Обработчик прерывания USART2
-     ^
-main.c(94): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void USART2_IRQHandler(void) // Обработчик прерывания USART2
-^
-static 
-main.c(136): warning: no previous prototype for function 'TIM2_IRQHandler' [-Wmissing-prototypes]
-void TIM2_IRQHandler(void)
-     ^
-main.c(136): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void TIM2_IRQHandler(void)
-^
-static 
-main.c(9): warning: unused variable 'buffer' [-Wunused-variable]
-static char buffer;      // Буфер для хранения принятых данных
-            ^
-main.c(10): warning: unused variable 'xbuffer' [-Wunused-variable]
-static char xbuffer[64]; // Буфер для хранения массива данных
-            ^
-main.c(11): warning: unused variable 'xlen' [-Wunused-variable]
-static uint8_t xlen = 0; // Длина буфера
-               ^
-main.c(52): warning: unused function 'initTIM2' [-Wunused-function]
-static void initTIM2(void)
-            ^
-21 warnings generated.
-compiling main.c...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-    NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
-                                               ~ ^~~~~~~~~~~
-1 warning generated.
-compiling misc.c...
 RTE/Device/STM32F103RB/system_stm32f10x.c(166): warning: no previous extern declaration for non-static variable 'AHBPrescTable' [-Wmissing-variable-declarations]
 __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
             ^
@@ -121,6 +36,11 @@ __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9}
     ^
 1 warning generated.
 compiling system_stm32f10x.c...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+    NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
+                                               ~ ^~~~~~~~~~~
+1 warning generated.
+compiling misc.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_usart.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
 typedef struct
@@ -130,8 +50,57 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
          ~  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
 2 warnings generated.
 compiling stm32f10x_usart.c...
-compiling stm32f10x_gpio.c...
 compiling stm32f10x_rcc.c...
+main.c(7): warning: no previous extern declaration for non-static variable 'timer' [-Wmissing-variable-declarations]
+uint16_t timer = 0;
+         ^
+main.c(7): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint16_t timer = 0;
+^
+main.c(8): warning: no previous extern declaration for non-static variable 'isTime' [-Wmissing-variable-declarations]
+uint8_t isTime = 1;
+        ^
+main.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint8_t isTime = 1;
+^
+main.c(17): warning: // comments are not allowed in this language [-Wcomment]
+            ; // Ожидание завершения передачи
+              ^
+main.c(1): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
+./RTE/Device/STM32F103RB\stm32f10x_conf.h(87): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
+typedef struct
+        ^
+main.c(66): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
+void TIM3_IRQHandler(void)
+     ^
+main.c(66): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void TIM3_IRQHandler(void)
+^
+static 
+main.c(1): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
+./RTE/Device/STM32F103RB\stm32f10x_conf.h(90): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
+typedef struct
+        ^
+main.c(1): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\stm32f10x.h(8347): warning: In file included from...
+./RTE/Device/STM32F103RB\stm32f10x_conf.h(30): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_adc.h(63): warning: padding struct 'ADC_InitTypeDef' with 2 bytes to align 'ADC_ExternalTrigConv' [-Wpadded]
+  uint32_t ADC_ExternalTrigConv;          /*!< Defines the external trigger used to start the analog
+           ^
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_adc.h(49): warning: padding size of 'ADC_InitTypeDef' with 3 bytes to alignment boundary [-Wpadded]
+typedef struct
+        ^
+main.c(142): warning: implicitly declaring library function 'sprintf' with type 'int (char *, const char *, ...)' [-Wimplicit-function-declaration]
+        sprintf(xbuffer, "%f", S);
+        ^
+main.c(142): note: include the header <stdio.h> or explicitly provide a declaration for 'sprintf'
+9 warnings generated.
+compiling main.c...
+compiling stm32f10x_gpio.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_adc.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_adc.h(63): warning: padding struct 'ADC_InitTypeDef' with 2 bytes to align 'ADC_ExternalTrigConv' [-Wpadded]
   uint32_t ADC_ExternalTrigConv;          /*!< Defines the external trigger used to start the analog
@@ -160,8 +129,8 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
 5 warnings generated.
 compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=12268 RO-data=864 RW-data=0 ZI-data=1648  
-".\Objects\lb4.axf" - 0 Error(s), 32 Warning(s).
+Program Size: Code=13116 RO-data=880 RW-data=4 ZI-data=1640  
+".\Objects\lb4.axf" - 0 Error(s), 20 Warning(s).
 
 <h2>Software Packages used:</h2>
 

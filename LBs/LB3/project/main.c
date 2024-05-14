@@ -20,8 +20,8 @@ static void sendArr(char *data)
     uint64_t i = 0;
     while (data[i])
     {
-        USART_SendData(USART1, data[i]);
-        while (!USART_GetFlagStatus(USART1, USART_FLAG_TXE))
+        USART_SendData(USART2, data[i]);
+        while (!USART_GetFlagStatus(USART2, USART_FLAG_TXE))
         {
         }
         i++;
@@ -31,8 +31,8 @@ static void sendArr(char *data)
 // Функция вывода байта
 static void sendChar(char data)
 {
-    USART_SendData(USART1, data);
-    while (!USART_GetFlagStatus(USART1, USART_FLAG_TXE))
+    USART_SendData(USART2, data);
+    while (!USART_GetFlagStatus(USART2, USART_FLAG_TXE))
     {
     }
 }
@@ -83,13 +83,13 @@ static void initGPIO(void) // Функция инициализации GPIO
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); // Включение тактирования порта A
 
     /* Настройка порта PA9 */
-    PortObj.GPIO_Pin = GPIO_Pin_9;         // Настройка пина 9
+    PortObj.GPIO_Pin = GPIO_Pin_2;         // Настройка пина 9
     PortObj.GPIO_Speed = GPIO_Speed_50MHz; // Установка скорости GPIO
     PortObj.GPIO_Mode = GPIO_Mode_AF_PP;   // Установка режима альтернативной функции push-pull
     GPIO_Init(GPIOA, &PortObj);            // Инициализация GPIOA с использованием структуры Obj
 
     /* Настройка порта PA10 */
-    PortObj.GPIO_Pin = GPIO_Pin_10;            // Настройка пина 10
+    PortObj.GPIO_Pin = GPIO_Pin_3;             // Настройка пина 10
     PortObj.GPIO_Mode = GPIO_Mode_IN_FLOATING; // Установка режима входа с подтяжкой к "плавающему" уровню
     GPIO_Init(GPIOA, &PortObj);                // Инициализация GPIOA с использованием структуры Obj
 
@@ -103,7 +103,7 @@ static void initGPIO(void) // Функция инициализации GPIO
 static void initUSART(void) // Функция инициализации USART
 {
     USART_InitTypeDef UsartObj;                            // Объявление структуры для инициализации USART
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); // Включение тактирования USART1
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE); // Включение тактирования USART2
 
     UsartObj.USART_BaudRate = 2400;                                      // Установка скорости передачи данных
     UsartObj.USART_WordLength = USART_WordLength_8b;                     // Установка длины слова
@@ -111,20 +111,20 @@ static void initUSART(void) // Функция инициализации USART
     UsartObj.USART_Parity = USART_Parity_No;                             // Установка контроля четности
     UsartObj.USART_HardwareFlowControl = USART_HardwareFlowControl_None; // Установка аппаратного управления потоком
     UsartObj.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;                 // Установка режима передачи и приема
-    USART_Init(USART1, &UsartObj);                                       // Инициализация USART1 с использованием структуры Obj
+    USART_Init(USART2, &UsartObj);                                       // Инициализация USART2 с использованием структуры Obj
 
-    USART_ITConfig(USART1, USART_IT_RXNE, ENABLE); // Включение прерывания по приему данных
-    USART_Cmd(USART1, ENABLE);                     // Включение USART1
-    NVIC_EnableIRQ(USART1_IRQn);
-		NVIC_SetPriority(USART1_IRQn, 1);
+    USART_ITConfig(USART2, USART_IT_RXNE, ENABLE); // Включение прерывания по приему данных
+    USART_Cmd(USART2, ENABLE);                     // Включение USART2
+    NVIC_EnableIRQ(USART2_IRQn);
+    NVIC_SetPriority(USART2_IRQn, 1);
 }
 
-void USART1_IRQHandler(void) // Обработчик прерывания USART1
+void USART2_IRQHandler(void) // Обработчик прерывания USART2
 {
-    if (USART_GetFlagStatus(USART1, USART_FLAG_RXNE)) // Если флаг RXNE установлен
+    if (USART_GetFlagStatus(USART2, USART_FLAG_RXNE)) // Если флаг RXNE установлен
     {
-        USART_ClearITPendingBit(USART1, USART_FLAG_RXNE); // Очистка флага прерывания RXNE
-        buffer = USART_ReceiveData(USART1);               // Чтение данных из регистра приема USART1
+        USART_ClearITPendingBit(USART2, USART_FLAG_RXNE); // Очистка флага прерывания RXNE
+        buffer = USART_ReceiveData(USART2);               // Чтение данных из регистра приема USART2
 
         if (xlen + 1 >= sizeof(xbuffer))
         {
@@ -136,7 +136,7 @@ void USART1_IRQHandler(void) // Обработчик прерывания USART1
         if (buffer != 0x0D)
         {
             xbuffer[xlen] = buffer;
-            sendChar(buffer); 
+            sendChar(buffer);
             xlen++;
             return;
         }
@@ -164,9 +164,9 @@ void USART1_IRQHandler(void) // Обработчик прерывания USART1
         }
 
         if (isXBuff("start"))
-        {		
-						if (TimObj.TIM_Period & ChObj.TIM_Pulse)
-							TIM_Cmd(TIM3, ENABLE);
+        {
+            if (TimObj.TIM_Period & ChObj.TIM_Pulse)
+                TIM_Cmd(TIM3, ENABLE);
             clearXBuff();
             sendArr("\n");
             return;
@@ -230,8 +230,7 @@ static void initTIM3(void)
     TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE); /* Включение прерывания на канале 1 */
 
     NVIC_EnableIRQ(TIM3_IRQn);
-		NVIC_SetPriority(TIM3_IRQn, 2);
-
+    NVIC_SetPriority(TIM3_IRQn, 2);
 }
 
 void TIM3_IRQHandler(void)

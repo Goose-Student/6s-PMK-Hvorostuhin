@@ -22,11 +22,12 @@ Dialog DLL:      TCM.DLL V1.56.1.0
  
 <h2>Project:</h2>
 D:\Projects\PGU\6s-PMK-Hvorostuhin\LBs\LB3\project\lb3.uvprojx
-Project File Date:  05/12/2024
+Project File Date:  05/14/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
+assembling startup_stm32f10x_md.s...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/misc.c(131): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
     NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
                                                ~ ^~~~~~~~~~~
@@ -40,7 +41,15 @@ __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9}
     ^
 1 warning generated.
 compiling system_stm32f10x.c...
-assembling startup_stm32f10x_md.s...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_usart.c(22): warning: In file included from...
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
+typedef struct
+        ^
+C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_usart.c(1043): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+  itmask = ((uint16_t)0x01 << (uint16_t)bitpos);
+         ~  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+2 warnings generated.
+compiling stm32f10x_usart.c...
 main.c(1): warning: // comments are not allowed in this language [-Wcomment]
 #include "stm32f10x.h"       // Подключение библиотеки общих определений для STM32F10x
                              ^
@@ -51,7 +60,7 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
 typedef struct
         ^
 main.c(127): warning: implicit conversion loses integer precision: 'uint16_t' (aka 'unsigned short') to 'char' [-Wimplicit-int-conversion]
-        buffer = USART_ReceiveData(USART1);               // Чтение данных из регистра приема USART1
+        buffer = USART_ReceiveData(USART2);               // Чтение данных из регистра приема USART2
                ~ ^~~~~~~~~~~~~~~~~~~~~~~~~
 main.c(147): warning: implicitly declaring library function 'sprintf' with type 'int (char *, const char *, ...)' [-Wimplicit-function-declaration]
             sprintf(xbuffer, "%d", TimObj.TIM_Period);
@@ -63,11 +72,11 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/Include\s
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
 typedef struct
         ^
-main.c(122): warning: no previous prototype for function 'USART1_IRQHandler' [-Wmissing-prototypes]
-void USART1_IRQHandler(void) // Обработчик прерывания USART1
+main.c(122): warning: no previous prototype for function 'USART2_IRQHandler' [-Wmissing-prototypes]
+void USART2_IRQHandler(void) // Обработчик прерывания USART2
      ^
 main.c(122): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void USART1_IRQHandler(void) // Обработчик прерывания USART1
+void USART2_IRQHandler(void) // Обработчик прерывания USART2
 ^
 static 
 main.c(237): warning: no previous prototype for function 'TIM3_IRQHandler' [-Wmissing-prototypes]
@@ -81,15 +90,6 @@ static
 compiling main.c...
 compiling stm32f10x_gpio.c...
 compiling stm32f10x_rcc.c...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_usart.c(22): warning: In file included from...
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_usart.h(49): warning: padding size of 'USART_InitTypeDef' with 2 bytes to alignment boundary [-Wpadded]
-typedef struct
-        ^
-C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_usart.c(1043): warning: implicit conversion loses integer precision: 'int' to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-  itmask = ((uint16_t)0x01 << (uint16_t)bitpos);
-         ~  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-2 warnings generated.
-compiling stm32f10x_usart.c...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/src/stm32f10x_tim.c(22): warning: In file included from...
 C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph_Driver/inc\stm32f10x_tim.h(50): warning: padding size of 'TIM_TimeBaseInitTypeDef' with 1 byte to alignment boundary [-Wpadded]
 typedef struct
@@ -109,7 +109,7 @@ C:/Users/Goose/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.4.0/Device/StdPeriph
 5 warnings generated.
 compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=11364 RO-data=920 RW-data=0 ZI-data=1736  
+Program Size: Code=11360 RO-data=920 RW-data=0 ZI-data=1736  
 ".\Objects\lb3.axf" - 0 Error(s), 16 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -143,29 +143,29 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:1.0.0
-      Include file:  RTE_Driver/Config/RTE_Device.h
       Source file:   Device/Source/ARM/startup_stm32f10x_md.s
-      Source file:   Device/Source/system_stm32f10x.c
+      Include file:  RTE_Driver/Config/RTE_Device.h
       Source file:   Device/Source/ARM/STM32F1xx_OPT.s
+      Source file:   Device/Source/system_stm32f10x.c
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/misc.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_it.c
-      Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Source file:   Device/StdPeriph_Driver/src/misc.c
+      Include file:  Device/StdPeriph_Driver/templates/stm32f10x_it.h
       Source file:   Device/StdPeriph_Driver/templates/stm32f10x_conf.h
+      Include file:  Device/StdPeriph_Driver/inc/misc.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
-      Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_gpio.h
+      Source file:   Device/StdPeriph_Driver/src/stm32f10x_gpio.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_rcc.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_rcc.c
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
-      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
       Source file:   Device/StdPeriph_Driver/src/stm32f10x_tim.c
+      Include file:  Device/StdPeriph_Driver/inc/stm32f10x_tim.h
 
    * Component: Keil::Device:StdPeriph Drivers:USART:3.6.0
       Include file:  Device/StdPeriph_Driver/inc/stm32f10x_usart.h
